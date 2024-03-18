@@ -15,15 +15,13 @@ service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options )
 wait = WebDriverWait(driver, 5, poll_frequency=1)
 
-driver.get("https://www.freeconferencecall.com/en/us/login")
+driver.get("https://dzen.ru/")
 
-driver.delete_all_cookies()
-
-pickle.dump(driver.get_cookies(), open(os.getcwd()+"\cookies.pkl", "wb"))
-
-cookies = pickle.load(open(os.getcwd()+"\cookies.pkl", "rb"))
-
-for cookie in cookies:
-    driver.add_cookie(cookie)
+driver.add_cookie({
+    "name": "username",
+    "value": "user123"
+})
 
 driver.refresh()
+
+driver.get_cookie("username"), "BAD"

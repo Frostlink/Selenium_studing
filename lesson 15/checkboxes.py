@@ -12,18 +12,18 @@ options = Options()
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--ignore-ssl-errors')
 service = Service(executable_path=ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=options )
+driver = webdriver.Chrome(service=service, options=options)
 wait = WebDriverWait(driver, 5, poll_frequency=1)
 
-driver.get("https://www.freeconferencecall.com/en/us/login")
+driver.get("https://demoqa.com/radio-button")
 
-driver.delete_all_cookies()
+YES_RADIO_STATUS = ("xpath", "//input[@id='yesRadio']")
+YES_RADIO = ("xpath", "//label[@for='yesRadio']")
+NO_RADIO_STATUS = ("xpath", "//input[@id='noRadio']")
+NO_RADIO = ("xpath", "//label[@for='noRadio']")
 
-pickle.dump(driver.get_cookies(), open(os.getcwd()+"\cookies.pkl", "wb"))
+# print(driver.find_element(*YES_RADIO_STATUS).is_selected())
+# driver.find_element(*YES_RADIO).click()
+# print(driver.find_element(*YES_RADIO_STATUS).is_selected())
 
-cookies = pickle.load(open(os.getcwd()+"\cookies.pkl", "rb"))
-
-for cookie in cookies:
-    driver.add_cookie(cookie)
-
-driver.refresh()
+print(driver.find_element(*NO_RADIO_STATUS).is_enabled())

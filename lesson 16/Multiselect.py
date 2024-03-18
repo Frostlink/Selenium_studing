@@ -1,29 +1,23 @@
 import time
-import os
-import pickle
+
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import Keys
 
 options = Options()
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--ignore-ssl-errors')
 service = Service(executable_path=ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=options )
+driver = webdriver.Chrome(service=service, options=options)
 wait = WebDriverWait(driver, 5, poll_frequency=1)
 
-driver.get("https://www.freeconferencecall.com/en/us/login")
+MULTISELECT_LOCATOR = ("xpath", "//input[@id='react-select-4-input']")
 
-driver.delete_all_cookies()
+driver.get("https://demoqa.com/select-menu")
 
-pickle.dump(driver.get_cookies(), open(os.getcwd()+"\cookies.pkl", "wb"))
+driver.find_element(*MULTISELECT_LOCATOR).send_keys("Green" + Keys.TAB)
 
-cookies = pickle.load(open(os.getcwd()+"\cookies.pkl", "rb"))
-
-for cookie in cookies:
-    driver.add_cookie(cookie)
-
-driver.refresh()
+time.sleep(3)

@@ -17,13 +17,8 @@ wait = WebDriverWait(driver, 5, poll_frequency=1)
 
 driver.get("https://www.freeconferencecall.com/en/us/login")
 
-driver.delete_all_cookies()
-
-pickle.dump(driver.get_cookies(), open(os.getcwd()+"\cookies.pkl", "wb"))
-
-cookies = pickle.load(open(os.getcwd()+"\cookies.pkl", "rb"))
-
-for cookie in cookies:
-    driver.add_cookie(cookie)
+driver.delete_cookie("split")
 
 driver.refresh()
+
+assert driver.get_cookie("split"), "good"

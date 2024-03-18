@@ -15,15 +15,19 @@ service = Service(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options )
 wait = WebDriverWait(driver, 5, poll_frequency=1)
 
-driver.get("https://www.freeconferencecall.com/en/us/login")
+driver.get("https://www.amazon.ae/gp/cart/view.html?ref_=nav_top_cart")
+time.sleep(10)
+pickle.dump(driver.get_cookies(), open(os.getcwd()+'\mazon_cookies.pkl', 'wb'))
 
 driver.delete_all_cookies()
-
-pickle.dump(driver.get_cookies(), open(os.getcwd()+"\cookies.pkl", "wb"))
-
-cookies = pickle.load(open(os.getcwd()+"\cookies.pkl", "rb"))
+driver.refresh()
+time.sleep(10)
+cookies = pickle.load(open(os.getcwd()+'\mazon_cookies.pkl', 'rb'))
 
 for cookie in cookies:
     driver.add_cookie(cookie)
 
 driver.refresh()
+
+time.sleep(10)
+
